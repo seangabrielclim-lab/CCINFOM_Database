@@ -20,4 +20,12 @@ create table resupply_record(
     resupply_id INT
     
 );
+
+create table customers(
+	customer_code INT PRIMARY KEY,
+    customer_name VARCHAR(150) NOT NULL,
+    contact_number VARCHAR(20),
+    customer_type ENUM ('illegal', 'legal') DEFAULT 'legal',
+    registration_date DATE
+);
 SELECT * from drugs_record;    
