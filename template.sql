@@ -1,3 +1,6 @@
+CREATE DATABASE pharmaflow;
+use pharmaflow;
+
 create table drugs_record(
 	product_code INT PRIMARY KEY,
     product_name VARCHAR(100) NOT NULL,
