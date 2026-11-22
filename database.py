@@ -1,4 +1,5 @@
 import mysql.connector
+import sales_record_management
 
 
 def init_database():
@@ -26,3 +27,5 @@ def get_all_tables(db):
         print(table)
 
     cursor.close()
+    
+    
