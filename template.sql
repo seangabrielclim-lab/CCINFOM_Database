@@ -4,11 +4,18 @@ use pharmaflow;
 create table drugs_record(
 	product_code INT PRIMARY KEY,
     product_name VARCHAR(100) NOT NULL,
-    product_price DECIMAL(10, 2) DEFAULT 0.00,
-    quantity_in_stock INT DEFAULT 0,
-    minimum_stock_level INT DEFAULT 5,
-    availability_status BOOLEAN
+    product_category VARCHAR(100) NOT NULL,
+    product_price DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    quantity_in_stock INT NOT NULL DEFAULT 0,
+    minimum_stock_level INT NOT NULL DEFAULT 5,
+    availability_status BOOLEAN 
+    GENERATED ALWAYS AS (
+        quantity_in_stock >= minimum_stock_level
+    ) STORED,
     
+    CHECK(product_price >= 0),
+    CHECK(quantity_in_stock >= 0),
+    CHECK(minimum_stock_level >= 0)
 );    
 
 create table customers(

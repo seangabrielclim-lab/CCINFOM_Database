@@ -1,8 +1,8 @@
 import mysql.connector
-
+import getpass
 
 def init_database():
-    password = input("password: ")
+    password = getpass.getpass("password: ")
     try:
         db = mysql.connector.connect(
             host='localhost',
