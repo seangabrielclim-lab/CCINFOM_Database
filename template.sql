@@ -1,49 +1,35 @@
-CREATE DATABASE pharmaflow;
+CREATE DATABASE IF NOT EXISTS pharmaflow;
 use pharmaflow;
 
 create table drugs_record(
 	product_code INT PRIMARY KEY,
     product_name VARCHAR(100) NOT NULL,
-    product_price DECIMAL(6, 5) DEFAULT 0.00,
+    product_price DECIMAL(10, 2) DEFAULT 0.00,
     quantity_in_stock INT DEFAULT 0,
     minimum_stock_level INT DEFAULT 5,
     availability_status BOOLEAN
     
 );    
 
-create table resupply_record(
-	supply_code INT PRIMARY KEY,
-    product_code INT,
-    FOREIGN KEY (product_code) REFERENCES drugs_record(product_code),
-    quantity INT DEFAULT 0,
-    date_received DATE,
-    recent_date_received DATE,
-    quantity_received INT DEFAULT 0,
-    shipping_code INT,
-    FOREIGN KEY (shipping_code) REFERENCES transportation_record(shipping_code),
-    resupply_status ENUM('complete', 'incomplete', 'locked') DEFAULT 'incomplete',
-    resupply_id INT
-    
-);
-
 create table customers(
 	customer_code INT PRIMARY KEY,
     customer_name VARCHAR(150) NOT NULL,
     contact_number VARCHAR(20),
     customer_type ENUM ('illegal', 'legal') DEFAULT 'legal',
-    registration_date DATE
+    registration_date DATE,
+    country VARCHAR(150) NOT NULL,
+    age INT NOT NULL 
 );
 
 create table sales_record(
 	transaction_code INT PRIMARY KEY,
     product_code INT,
     FOREIGN KEY (product_code) REFERENCES drugs_record(product_code),
-    shipping_code INT,
-    FOREIGN KEY (shipping_code) REFERENCES transportation_record(shipping_code),
     customer_code INT,
     FOREIGN KEY (customer_code) REFERENCES customers(customer_code),
     quantity_sold INT DEFAULT 0,
-    date_sold DATE
+    date_sold DATE NOT NULL,
+    shipping_code INT
 );
 
 CREATE TABLE transportation_record (
@@ -74,3 +60,24 @@ CREATE TABLE transportation_record (
     transaction_code INT,
 	FOREIGN KEY (transaction_code) REFERENCES sales_record(transaction_code)
 );
+
+create table resupply_record(
+	supply_code INT PRIMARY KEY,
+    product_code INT,
+    FOREIGN KEY (product_code) REFERENCES drugs_record(product_code),
+    quantity INT DEFAULT 0,
+    date_received DATE,
+    recent_date_received DATE,
+    quantity_received INT DEFAULT 0,
+    shipping_code INT,
+    FOREIGN KEY (shipping_code) REFERENCES transportation_record(shipping_code),
+    resupply_status ENUM('complete', 'incomplete', 'locked') DEFAULT 'incomplete',
+    resupply_id INT NOT NULL
+    
+);
+
+ALTER TABLE sales_record 
+ADD CONSTRAINT shipping_code
+FOREIGN KEY(shipping_code) REFERENCES transportation_record(shipping_code);
+
+SHOW TABLES;
