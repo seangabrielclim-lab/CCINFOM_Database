@@ -1,8 +1,7 @@
 import mysql.connector
 import getpass
 
-def init_database():
-    password = getpass.getpass("password: ")
+def init_database(password):
     try:
         db = mysql.connector.connect(
             host='localhost',
@@ -13,11 +12,10 @@ def init_database():
         )
 
         if db.is_connected:
-            print("Succesfully connected")
-            return db
+            return db, "success"
     except mysql.connector.Error as e:
         print(f"failed to connect. {e}")
-    return None
+        return None, str(e)
 
 def get_all_tables(db):
     cursor = db.cursor()
