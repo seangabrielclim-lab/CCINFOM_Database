@@ -15,7 +15,13 @@ def init_database(password):
             return db, "success"
     except mysql.connector.Error as e:
         print(f"failed to connect. {e}")
-        return None, str(e)
+        if (str(e) == "1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)"):
+            msg = "Wrong Password"
+        elif (str(e) == "1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)"):
+            msg = "Enter a password"
+        else:
+            msg = f"Error : {e}"
+        return None, msg
 
 def get_all_tables(db):
     cursor = db.cursor()
