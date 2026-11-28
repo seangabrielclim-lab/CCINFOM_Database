@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from frontend import THEMES as themes
 
 from frontend.frames.record_table import RecordTable
 from frontend.frames.record_form import RecordForm
@@ -12,7 +13,7 @@ class DemoApp(ctk.CTk):
 
         self.title("PharmaFlow - GUI Preview")
         self.geometry("1280x800")
-        self.configure(fg_color="#363636")
+        self.configure(fg_color=themes.THEME_BG)
 
         self.columnconfigure(0, weight=1)
         self.rowconfigure(1, weight=1)
@@ -29,8 +30,8 @@ class DemoApp(ctk.CTk):
         ctk.CTkLabel(
             self.header,
             text="PharmaFlow - Academic Preview",
-            font=("Helvetica", 20, "bold"),
-            text_color="#ffffff"
+            font=(themes.THEME_FONT_FAMILY, 20, "bold"),
+            text_color=themes.THEME_ACCENT_FG
         ).pack(side="left", padx=20, pady=10)
 
         # Main content
