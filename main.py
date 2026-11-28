@@ -15,7 +15,12 @@ class DemoApp(ctk.CTk):
         self.geometry("1280x800")
         self.configure(fg_color=themes.THEME_BG)
 
-        self.columnconfigure(0, weight=1)
+        self.minsize(900, 600)
+
+        self.columnconfigure(0, weight=0)
+        self.columnconfigure(1, weight=1)
+
+        self.rowconfigure(0, weight=0)
         self.rowconfigure(1, weight=1)
 
         # Header
@@ -24,7 +29,9 @@ class DemoApp(ctk.CTk):
         )
         self.header.grid(
             row=0, column=0,
-            sticky="ew", padx=10, pady=10
+            columnspan=2,
+            sticky="ew",
+            padx=10, pady=10
         )
 
         ctk.CTkLabel(
@@ -34,11 +41,46 @@ class DemoApp(ctk.CTk):
             text_color=themes.THEME_ACCENT_FG
         ).pack(side="left", padx=20, pady=10)
 
+        self.sidebar = ctk.CTkFrame(
+        self,
+        width=180,
+        fg_color=themes.THEME_BG
+        )
+
+        self.sidebar.grid(
+        row=1, column=0,
+        sticky="ns",
+        padx=10, pady=10
+        )
+
+        ctk.CTkLabel(
+        self.sidebar,
+        text="Navigation",
+        font=(themes.THEME_FONT_FAMILY, 16, "bold")
+        ).pack(pady=15)
+
+        for page in [
+            "Sample Records",
+            "Sample Form",
+            "Sample Reports"
+        ]:
+
+
+            ctk.CTkButton(
+                self.sidebar,
+                text=page,
+                width=160,
+                height=45,
+                fg_color="#4f4f4f",
+                command=lambda p=page: self.tabs.set(p)
+            ).pack(padx=10, pady=5)
+
         # Main content
         self.tabs = ctk.CTkTabview(self)
         self.tabs.grid(
-            row=1, column=0,
-            sticky="nsew", padx=10, pady=10
+            row=1, column=1,
+            sticky="nsew",
+            padx=10, pady=10
         )
 
         self.tabs.add("Sample Records")
