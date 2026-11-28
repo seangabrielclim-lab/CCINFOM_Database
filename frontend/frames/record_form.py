@@ -91,6 +91,44 @@ class RecordForm(ctk.CTkFrame):
             entry.delete(0, "end")
 
         self.status.configure(text="")
+     
+# Delete confirmation preview   
+# NOTE: this might need changing. The master.master.master is kinda diabolical T-T
+class DeleteRecord(ctk.CTkFrame):
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs)
+        
+        delete_tab = self
+
+        ctk.CTkLabel(
+            delete_tab,
+            text="Delete Record Preview",
+            font=("Helvetica", 22, "bold")
+        ).pack(pady=20)
+
+        ctk.CTkLabel(
+            delete_tab,
+            text="Sample Record: 001"
+        ).pack(pady=10)
+
+        ctk.CTkLabel(
+            delete_tab,
+            text="Are you sure you want to delete this record?"
+        ).pack(pady=10)
+
+        ctk.CTkButton(
+            delete_tab,
+            text="Confirm Delete",
+            fg_color="#c0392b",
+            state="disabled"
+        ).pack(pady=10)
+
+        ctk.CTkButton(
+            delete_tab,
+            text="Cancel",
+            fg_color="#585858",
+            command=lambda: master.master.master.set("View/Filter")
+        ).pack(pady=10)
 
 
 if __name__ == "__main__":
