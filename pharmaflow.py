@@ -1,7 +1,6 @@
 # Designed with https://visualtkinter.com - paste this file into File > Import there to edit it visually
 # Requires CustomTkinter:  pip install customtkinter
 import customtkinter as ctk
-from tkinter import messagebox
 from database import init_database
 
 
@@ -74,7 +73,7 @@ def apply_theme(root):
     so the widgets themselves carry the rest of the colours."""
     root.configure(fg_color=THEME_BG)
 
-
+# This is the main frame. All operations are done here
 class PharmaFlow:
     def __init__(self, master, login):
         root = ctk.CTkToplevel(master)
@@ -86,39 +85,49 @@ class PharmaFlow:
         self.login = login
         
         root.protocol("WM_DELETE_WINDOW", self.on_closing)
-
+        
+        # NOTE: the numbers (1), (2) represents a frame group. (1.1), (2.1) represents subgroups of a frame group. Subsequent numbers
+        # are considered subgroups of the subgroups. This is to keep things readable. (Reading all this lowkey make my eyes hurt T_T)
+        
+        # content frame (2)
         self.frame15 = ctk.CTkFrame(root, border_width=2, fg_color=THEME_BG, width=420, height=330)
         self.frame15.grid(row=0, column=0, sticky="nsew", padx=4, pady=4)
-
+        
+        # Header frame (1)
         self.frame2 = ctk.CTkFrame(self.frame15, fg_color="#66a369", border_width=2, corner_radius=1, width=520, height=50)
         self.frame2.grid(row=0, column=0, columnspan=5, sticky="nsew", padx=4, pady=4)
-
+        
+        self.label3 = ctk.CTkLabel(self.frame2, text="PharmaFlow", text_color="#ffffff", font=ctk.CTkFont(family="Helvetica", size=18, weight="bold"), width=170, height=30)
+        self.label3.grid(row=0, column=0, sticky="w", padx=4, pady=4)
+        
         self.logout = ctk.CTkButton(self.frame2, text="Logout", command=self.on_logout, fg_color="#e77474", text_color=THEME_ACCENT_FG, font=ctk.CTkFont(family=THEME_FONT_FAMILY, size=THEME_FONT_SIZE), width=70, height=20)
         self.logout.grid(row=0, column=1, sticky="nsew", padx=4, pady=4)
 
-        self.label3 = ctk.CTkLabel(self.frame2, text="PharmaFlow", text_color="#ffffff", font=ctk.CTkFont(family="Helvetica", size=18, weight="bold"), width=170, height=30)
-        self.label3.grid(row=0, column=0, sticky="w", padx=4, pady=4)
-
+        # (2.1) Selection display frame (Shows managing records, generating reports)
         self.notebook4 = ctk.CTkTabview(self.frame15, fg_color=THEME_BG, width=370, height=310)
         self.notebook4.add("Manage Record")
         self.notebook4.add("Generate Report")
         self.notebook4.grid(row=1, column=3, rowspan=4, sticky="nsew", padx=4, pady=4)
 
+        # (2.1.1) Record management frames
         self.frame16 = ctk.CTkFrame(self.notebook4.tab("Manage Record"), fg_color="#ffffff", border_width=2, width=370, height=270)
         self.frame16.grid(row=0, column=0, sticky="nsew", padx=4, pady=4)
 
+        # (2.1.2) Report Generation frames
         self.frame19 = ctk.CTkFrame(self.notebook4.tab("Generate Report"), fg_color="#ffffff", border_width=2, width=370, height=270)
         self.frame19.grid(row=0, column=0, sticky="nsew", padx=4, pady=4)
 
+        # (2.2) Side frame (contents to the left of the application)
         self.scrollframe5 = ScrollableFrame(self.frame15, width=130, height=270)
         self.scrollframe5.grid(row=4, column=0, columnspan=3, sticky="nsew", padx=4, pady=4)
 
-        self.label10 = ctk.CTkLabel(self.frame15, text="Records", text_color="#ffffff", font=ctk.CTkFont(family="Helvetica", size=14, weight="bold"), width=90, height=20)
-        self.label10.grid(row=2, column=1, sticky="nsew", padx=4, pady=4)
+        self.recordlbl = ctk.CTkLabel(self.frame15, text="Records", text_color="#ffffff", font=ctk.CTkFont(family="Helvetica", size=14, weight="bold"), width=90, height=20)
+        self.recordlbl.grid(row=2, column=1, sticky="nsew", padx=4, pady=4)
 
         self.frame22 = ctk.CTkFrame(self.scrollframe5.body, border_width=2, fg_color=THEME_BG, width=130, height=270)
         self.frame22.grid(row=0, column=0, sticky="nsew", padx=4, pady=4)
 
+        # (2.2.1) Record selection buttions
         self.drug = ctk.CTkButton(self.frame22, text="Drug Record", command=self.on_drug, fg_color="#4f4f4f", font=ctk.CTkFont(family="Helvetica", size=13, weight="bold"), text_color=THEME_ACCENT_FG, width=100, height=50)
         self.drug.grid(row=0, column=0, sticky="nsew", padx=4, pady=4)
 
@@ -134,6 +143,7 @@ class PharmaFlow:
         self.logistics = ctk.CTkButton(self.frame22, text="Logistics Record", command=self.on_logistics, fg_color="#4f4f4f", font=ctk.CTkFont(family="Helvetica", size=13, weight="bold"), text_color=THEME_ACCENT_FG, width=100, height=50)
         self.logistics.grid(row=4, column=0, sticky="nsew", padx=4, pady=4)
 
+        # frame configuration
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)
 
@@ -163,12 +173,13 @@ class PharmaFlow:
         self.frame22.rowconfigure(3, minsize=58)
         self.frame22.rowconfigure(4, minsize=65)
 
+    # prevents application closing when user is not logged out
     def on_closing(self):
         if self.db is not None:
             LogoutBeforeClosing(self.root)
 
+    # logs out of the application and closes the connection to the database
     def on_logout(self):
-        
         if self.db is not None:
             try:
                 self.db.close()
@@ -181,23 +192,29 @@ class PharmaFlow:
         self.login.root.deiconify()
 
     def on_drug(self):
+        self.recordlbl.configure(text="Current Record: Drug Record")
         pass
 
     def on_resupply(self):
+        self.recordlbl.configure(text="Current Record: Resupply Record")
         pass
 
     def on_customer(self):
+        self.recordlbl.configure(text="Current Record: Customer Record")
         pass
 
     def on_sales(self):
+        self.recordlbl.configure(text="Current Record: Sales Record")
         pass
 
     def on_logistics(self):
+        self.recordlbl.configure(text="Current Record: Logistics Record")
         pass
     
     def set_db(self, db):
         self.db = db
 
+# This is the login frame. 
 class Login:
     def __init__(self, root):
         self.root = root
@@ -245,7 +262,8 @@ class Login:
             self.root.withdraw()
             pharmaflow = self.open_PharmaFlow()
             pharmaflow.set_db(db)
-            
+   
+# This frame shows the warning that the user needs to logout before exiting         
 class LogoutBeforeClosing:
     def __init__(self, master):
         root = ctk.CTkToplevel(master)
