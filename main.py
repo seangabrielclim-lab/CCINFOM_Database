@@ -12,7 +12,8 @@ class ScrollableFrame(ctk.CTkFrame):
         self._canvas = ctk.CTkCanvas(
             self,
             highlightthickness=0,
-            bg=THEME_BG
+            bg=THEME_BG,
+            width=130
         )
         self._bar = ctk.CTkScrollbar(self, orientation="vertical", command=self._canvas.yview)
         self._canvas.configure(yscrollcommand=self._bar.set)
@@ -52,7 +53,7 @@ class PharmaFlow:
         self.main_frame = ctk.CTkFrame(root, border_width=2, fg_color=THEME_BG, width=1280, height=750)
         self.main_frame.grid(row=0, column=0, sticky="nsew", padx=4, pady=4)
 
-        self.header_frame = ctk.CTkFrame(self.main_frame, fg_color="#66a369", border_width=2, corner_radius=1, width=1280, height=50)
+        self.header_frame = ctk.CTkFrame(self.main_frame, fg_color="#66a369", border_width=2, corner_radius=1, width=200, height=50)
         self.header_frame.grid(row=0, column=0, columnspan=5, sticky="nsew", padx=4, pady=4)
 
         self.btn_logout = ctk.CTkButton(self.header_frame, text="Logout", command=self.on_btn_logout, fg_color="#e77474", text_color=THEME_ACCENT_FG, font=ctk.CTkFont(family=THEME_FONT_FAMILY, size=THEME_FONT_SIZE), width=110, height=30)
