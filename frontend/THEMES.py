@@ -1,0 +1,7 @@
+THEME_BG = "#363636"
+THEME_FG = "#1a1a1a"
+THEME_ACCENT = "#2a7de1"
+THEME_ACCENT_FG = "#ffffff"
+THEME_FIELD_BG = "#ffffff"
+THEME_FONT_FAMILY = "Helvetica"
+THEME_FONT_SIZE = 10
