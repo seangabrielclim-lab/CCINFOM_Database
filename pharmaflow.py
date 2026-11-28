@@ -2,7 +2,8 @@
 # Requires CustomTkinter:  pip install customtkinter
 import customtkinter as ctk
 from database import init_database
-
+from frontend import THEMES as themes
+from frontend.frames import drug_record_frame as drf
 
 class ScrollableFrame(ctk.CTkFrame):
     """A frame that scrolls. Put your widgets in `.body`, not in this."""
@@ -59,13 +60,13 @@ class ScrollableFrame(ctk.CTkFrame):
                 self._canvas.yview_scroll(1, "units")
 
 
-THEME_BG = "#363636"
-THEME_FG = "#1a1a1a"
-THEME_ACCENT = "#2a7de1"
-THEME_ACCENT_FG = "#ffffff"
-THEME_FIELD_BG = "#ffffff"
-THEME_FONT_FAMILY = "Helvetica"
-THEME_FONT_SIZE = 10
+THEME_BG = themes.THEME_BG
+THEME_FG = themes.THEME_FG
+THEME_ACCENT = themes.THEME_ACCENT
+THEME_ACCENT_FG = themes.THEME_ACCENT_FG
+THEME_FIELD_BG = themes.THEME_FIELD_BG
+THEME_FONT_FAMILY = themes.THEME_FONT_FAMILY
+THEME_FONT_SIZE = themes.THEME_FONT_SIZE
 
 
 def apply_theme(root):
@@ -106,12 +107,17 @@ class PharmaFlow:
         # (2.1) Selection display frame (Shows managing records, generating reports)
         self.notebook4 = ctk.CTkTabview(self.frame15, fg_color=THEME_BG, width=370, height=310)
         self.notebook4.add("Manage Record")
-        self.notebook4.add("Generate Report")
+        report_tab = self.notebook4.add("Generate Report")
         self.notebook4.grid(row=1, column=3, rowspan=4, sticky="nsew", padx=4, pady=4)
 
         # (2.1.1) Record management frames
-        self.frame16 = ctk.CTkFrame(self.notebook4.tab("Manage Record"), fg_color="#ffffff", border_width=2, width=370, height=270)
-        self.frame16.grid(row=0, column=0, sticky="nsew", padx=4, pady=4)
+        self.manage_tab = ctk.CTkFrame(self.notebook4.tab("Manage Record"), fg_color="#ffffff", border_width=2, width=370, height=270)
+        self.manage_tab.grid(row=0, column=0, sticky="nsew", padx=4, pady=4)
+        self.manage_tab.columnconfigure(0, weight=1)
+        self.manage_tab.rowconfigure(0, weight=1)
+        
+        self.drug_record_frame = drf.drug_record_frame(self.manage_tab)
+        self.drug_record_frame.grid(row=0, column=0, sticky="nsew", padx=4, pady=4)
 
         # (2.1.2) Report Generation frames
         self.frame19 = ctk.CTkFrame(self.notebook4.tab("Generate Report"), fg_color="#ffffff", border_width=2, width=370, height=270)
