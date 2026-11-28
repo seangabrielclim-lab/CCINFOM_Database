@@ -13,7 +13,8 @@ class ScrollableFrame(ctk.CTkFrame):
             self,
             highlightthickness=0,
             bg=THEME_BG,
-            width=130
+            width=130,
+            height=400
         )
         self._bar = ctk.CTkScrollbar(self, orientation="vertical", command=self._canvas.yview)
         self._canvas.configure(yscrollcommand=self._bar.set)
@@ -74,7 +75,7 @@ class PharmaFlow:
         self.frame19.grid(row=0, column=0, sticky="nsew", padx=4, pady=4)
 
         self.scrollframe5 = ScrollableFrame(self.main_frame, width=130, height=270)
-        self.scrollframe5.grid(row=4, column=0, columnspan=3, sticky="w", padx=4, pady=4)
+        self.scrollframe5.grid(row=4, column=0, columnspan=3, sticky="nw", padx=4, pady=4)
 
         self.label10 = ctk.CTkLabel(self.main_frame, text="Records", text_color="#ffffff", font=ctk.CTkFont(family="Helvetica", size=14, weight="bold"), width=90, height=20)
         self.label10.grid(row=2, column=1, sticky="w", padx=4, pady=4)
