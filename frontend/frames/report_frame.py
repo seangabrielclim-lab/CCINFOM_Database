@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from tkinter import ttk
 
 
 class ReportFrame(ctk.CTkFrame):
@@ -30,7 +31,11 @@ class ReportFrame(ctk.CTkFrame):
             values=[
                 "Sample Report A",
                 "Sample Report B",
-                "Sample Report C"
+                "Sample Report C",
+                "Sample Report D",
+                "Sample Report E",
+                "Sample Report F",
+                "Sample Report G"
             ]
         )
         self.report_type.pack(
@@ -47,42 +52,56 @@ class ReportFrame(ctk.CTkFrame):
         )
 
         self.status = ctk.CTkLabel(
-            self, text="Select a sample report."
+            self,
+            text="Select a sample report."
         )
         self.status.grid(
             row=2, column=0,
             sticky="w", padx=20
         )
 
-        self.results = ctk.CTkTextbox(self)
+        self.results = ttk.Treeview(
+            self,
+            columns=("item", "value"),
+            show="headings"
+        )
+
+        self.results.heading(
+            "item", text="Sample Item"
+        )
+        self.results.heading(
+            "value", text="Value"
+        )
+
+        self.results.column("item", width=300)
+        self.results.column("value", width=150)
+
         self.results.grid(
             row=3, column=0,
-            sticky="nsew", padx=20, pady=20
+            sticky="nsew",
+            padx=20, pady=20
         )
-        self.results.configure(state="disabled")
 
     def generate_preview(self):
-
         selected = self.report_type.get()
 
-        self.results.configure(state="normal")
-        self.results.delete("1.0", "end")
+        for item in self.results.get_children():
+            self.results.delete(item)
 
-        self.results.insert(
-            "end",
-            f"{selected}\n"
-            "========================\n\n"
-            "Fictional Report Preview\n\n"
-            "Sample A: 10\n"
-            "Sample B: 20\n"
-            "Sample C: 30\n\n"
-            "Total: 60\n"
-        )
+        sample_data = [
+            ("Sample A", 10),
+            ("Sample B", 20),
+            ("Sample C", 30),
+            ("Total", 60)
+        ]
 
-        self.results.configure(state="disabled")
+        for row in sample_data:
+            self.results.insert(
+                "", "end", values=row
+            )
 
         self.status.configure(
-            text="Sample preview displayed.",
+            text=f"{selected} - Fictional Preview",
             text_color="#66a369"
         )
 

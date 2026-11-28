@@ -3,7 +3,7 @@ import customtkinter as ctk
 
 class RecordForm(ctk.CTkFrame):
 
-    def __init__(self, master, **kwargs):
+    def __init__(self, master, form_title="Sample Record Form", **kwargs):
         super().__init__(master, **kwargs)
 
         self.columnconfigure(1, weight=1)
@@ -11,7 +11,7 @@ class RecordForm(ctk.CTkFrame):
 
         title = ctk.CTkLabel(
             self,
-            text="Sample Record Form",
+            text=form_title,
             font=("Helvetica", 22, "bold")
         )
         title.grid(
