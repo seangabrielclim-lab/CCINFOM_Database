@@ -9,7 +9,11 @@ class ScrollableFrame(ctk.CTkFrame):
 
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
-        self._canvas = ctk.CTkCanvas(self, highlightthickness=0)
+        self._canvas = ctk.CTkCanvas(
+            self,
+            highlightthickness=0,
+            bg=THEME_BG
+        )
         self._bar = ctk.CTkScrollbar(self, orientation="vertical", command=self._canvas.yview)
         self._canvas.configure(yscrollcommand=self._bar.set)
         self._bar.pack(side="right", fill="y")
@@ -52,17 +56,17 @@ class PharmaFlow:
         self.header_frame.grid(row=0, column=0, columnspan=5, sticky="nsew", padx=4, pady=4)
 
         self.btn_logout = ctk.CTkButton(self.header_frame, text="Logout", command=self.on_btn_logout, fg_color="#e77474", text_color=THEME_ACCENT_FG, font=ctk.CTkFont(family=THEME_FONT_FAMILY, size=THEME_FONT_SIZE), width=110, height=30)
-        self.btn_logout.grid(row=0, column=1, sticky="w", padx=4, pady=4)
+        self.btn_logout.grid(row=0, column=1, sticky="e", padx=12, pady=4)
 
         self.label3 = ctk.CTkLabel(self.header_frame, text="PharmaFlow", text_color="#ffffff", font=ctk.CTkFont(family="Helvetica", size=18, weight="bold"), width=170, height=30)
         self.label3.grid(row=0, column=0, sticky="w", padx=4, pady=4)
 
-        self.main_notebook = ctk.CTkTabview(self.main_frame, fg_color=THEME_BG, width=1080, height=730)
+        self.main_notebook = ctk.CTkTabview(self.main_frame, fg_color=THEME_BG, width=800, height=550)
         self.main_notebook.add("Manage Records")
         self.main_notebook.add("Generate Reports")
         self.main_notebook.grid(row=1, column=3, rowspan=5, sticky="nsew", padx=4, pady=4)
 
-        self.records_content_frame = ctk.CTkFrame(self.main_notebook.tab("Manage Records"), fg_color="#ffffff", border_width=2, width=1060, height=670)
+        self.records_content_frame = ctk.CTkFrame(self.main_notebook.tab("Manage Records"), fg_color="#ffffff", border_width=2, width=780, height=500)
         self.records_content_frame.grid(row=0, column=0, sticky="nsew", padx=4, pady=4)
 
         self.frame19 = ctk.CTkFrame(self.main_notebook.tab("Generate Reports"), fg_color="#ffffff", border_width=2, width=370, height=270)
@@ -101,24 +105,25 @@ class PharmaFlow:
         self.button21 = ctk.CTkButton(self.records_content_frame, text="Button", command=self.on_button21, fg_color=THEME_ACCENT, text_color=THEME_ACCENT_FG, font=ctk.CTkFont(family=THEME_FONT_FAMILY, size=THEME_FONT_SIZE), width=96, height=32)
         self.button21.grid(row=0, column=2, sticky="w", padx=4, pady=4)
 
-        self.main_frame.columnconfigure(0, minsize=33, weight=1)
-        self.main_frame.columnconfigure(1, minsize=98, weight=1)
-        self.main_frame.columnconfigure(2, minsize=28, weight=1)
-        self.main_frame.columnconfigure(3, minsize=1093, weight=1)
-        self.main_frame.columnconfigure(4, minsize=68, weight=1)
-        self.main_frame.rowconfigure(0, minsize=58, weight=1)
-        self.main_frame.rowconfigure(1, minsize=18, weight=1)
-        self.main_frame.rowconfigure(2, minsize=28, weight=1)
-        self.main_frame.rowconfigure(3, minsize=18, weight=1)
-        self.main_frame.rowconfigure(4, minsize=278, weight=1)
-        self.main_frame.rowconfigure(5, minsize=428, weight=1)
-        self.header_frame.columnconfigure(0, minsize=178)
-        self.header_frame.columnconfigure(1, minsize=118)
+        self.main_frame.columnconfigure(0, minsize=20, weight=0)
+        self.main_frame.columnconfigure(1, minsize=110, weight=0)
+        self.main_frame.columnconfigure(2, minsize=20, weight=0)
+        self.main_frame.columnconfigure(3, weight=1)
+        self.main_frame.columnconfigure(4, minsize=10, weight=0)
+
+        self.main_frame.rowconfigure(0, minsize=58, weight=0)
+        self.main_frame.rowconfigure(1, minsize=18, weight=0)
+        self.main_frame.rowconfigure(2, minsize=28, weight=0)
+        self.main_frame.rowconfigure(3, minsize=18, weight=0)
+        self.main_frame.rowconfigure(4, weight=1)
+        self.main_frame.rowconfigure(5, weight=1)
+        self.header_frame.columnconfigure(0, minsize=178, weight=1)
+        self.header_frame.columnconfigure(1, minsize=118, weight=0)
         self.header_frame.rowconfigure(0, minsize=38)
-        root.columnconfigure(0, minsize=1288, weight=1)
-        root.rowconfigure(0, minsize=758, weight=1)
-        self.main_notebook.tab("Manage Records").columnconfigure(0, minsize=1068, weight=1)
-        self.main_notebook.tab("Manage Records").rowconfigure(0, minsize=678, weight=1)
+        root.columnconfigure(0, weight=1)
+        root.rowconfigure(0, weight=1)
+        self.main_notebook.tab("Manage Records").columnconfigure(0, weight=1)
+        self.main_notebook.tab("Manage Records").rowconfigure(0, weight=1)
         self.main_notebook.tab("Generate Reports").columnconfigure(0, minsize=378, weight=1)
         self.main_notebook.tab("Generate Reports").rowconfigure(0, minsize=278, weight=1)
         self.scrollframe5.body.columnconfigure(0, minsize=138, weight=1)
